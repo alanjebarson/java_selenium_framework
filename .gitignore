@@ -1,0 +1,15 @@
+# Build / run output
+target/
+test-output/
+
+# Secrets and real test data (kept local only)
+.env
+src/test/resources/.env
+resources/test_data/Test_Data_Excel.xlsx
+
+# IDE files
+.classpath
+.project
+.settings/
+.idea/
+*.iml
