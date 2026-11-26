@@ -44,7 +44,7 @@ public class locators {
     protected final By BLUE_TOP_PRICE = By.xpath(
             "//div[contains(@class,'product-image-wrapper')][.//p[normalize-space()='Blue Top']]//h2");
     protected final By BLUE_TOP_ADD_TO_CART = By.xpath(
-            "//div[contains(@class,'product-image-wrapper')][.//p[normalize-space()='Blue Top']]//a[contains(.,'Add to cart')]");
+            "//div[contains(@class,'product-image-wrapper')]//p[text()='Blue Top']//parent::div[@class='overlay-content']//a[contains(.,'Add to cart')]");
     protected final By VIEW_CART = By.xpath("//a[normalize-space()='View Cart']");
     protected final By CART_BLUE_TOP = By.xpath("//tr[contains(@id,'product-')][.//a[normalize-space()='Blue Top']]");
     protected final By PROCEED_TO_CHECKOUT = By.xpath("//a[normalize-space()='Proceed To Checkout']");
