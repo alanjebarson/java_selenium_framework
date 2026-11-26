@@ -1,6 +1,5 @@
 package pages;
 
-import io.github.cdimascio.dotenv.Dotenv;
 import reusables.methods;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -11,12 +10,13 @@ import reusables.base;
 public class po_signup_products {
 	private locators locators;
 	protected methods methods;
-	Dotenv dotenv = Dotenv.load();
 	public String url = System.getProperty(
 	        "url",
 	        "https://www.automationexercise.com/"
 	);
-	
+	public void setMethods(methods methods) {
+	    this.methods = methods;
+	}
 	public po_signup_products(methods methods) {
 		this.locators= new locators();
 		this.methods=methods;
@@ -62,7 +62,7 @@ public class po_signup_products {
         methods.enterText(locators.ZIPCODE, zipcode);
         methods.enterText(locators.MOBILE_NUMBER, mobile);
         methods.click(locators.CREATE_ACCOUNT);
-
+        methods.closeAdIfPresent();
         methods.assertCondition(
                 methods.isElementVisible(locators.ACCOUNT_CREATED),
                 "Account Created confirmation is displayed",
@@ -109,6 +109,7 @@ public class po_signup_products {
     }
 
     public void navigateToProducts() {
+    	methods.closeAdIfPresent();
         methods.click(locators.PRODUCTS_LINK);
         methods.assertCondition(
                 methods.isElementVisible(locators.BLUE_TOP_NAME),

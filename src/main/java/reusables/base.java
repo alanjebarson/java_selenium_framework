@@ -73,7 +73,7 @@ public class base {
 	public static Map<String, String> getTestDataFromExcel(String testCaseId) {
 		String baseDir = System.getProperty("user.dir");
 		String excelFilePath = Paths.get(baseDir, "resources", "test_data", "Test_Data_Excel.xlsx").toString();
-
+		System.out.println("Excel Path: " + excelFilePath);
 		Map<String, String> testDataDict = new HashMap<>();
 		Map<String, String> otherDataDict = new HashMap<>();
 

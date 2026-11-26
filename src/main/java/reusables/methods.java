@@ -24,6 +24,7 @@ import java.util.stream.Collectors;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+
 import org.apache.commons.io.FileUtils;
 
 public class methods extends base {
@@ -306,6 +307,38 @@ public class methods extends base {
 			e.printStackTrace();
 			return null;
 		}
+	}
+	public void closeAdIfPresent() {
+	    try {
+	        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(3));
+
+	        // Wait briefly for the advertisement iframe
+	        List<WebElement> frames = driver.findElements(
+	            By.xpath("//iframe[@id='ad_iframe']")
+	        );
+
+	        if (!frames.isEmpty()) {
+
+	            driver.switchTo().frame(frames.get(0));
+
+	            // Find and click Close
+	            List<WebElement> closeButtons = driver.findElements(
+	                By.xpath("//div[normalize-space()='Close']")
+	            );
+
+	            if (!closeButtons.isEmpty() && closeButtons.get(0).isDisplayed()) {
+	                closeButtons.get(0).click();
+	                System.out.println("Advertisement closed successfully");
+	            }
+
+	            // Return to the main page
+	            driver.switchTo().defaultContent();
+	        }
+
+	    } catch (Exception e) {
+	        driver.switchTo().defaultContent();
+	        System.out.println("Advertisement not present or could not be closed");
+	    }
 	}
 
 }

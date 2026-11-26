@@ -5,7 +5,6 @@ import org.testng.annotations.Test;
 
 import java.lang.reflect.Method;
 import java.util.Map;
-
 import org.testng.annotations.AfterMethod;
 
 import com.aventstack.extentreports.ExtentReports;
@@ -21,7 +20,7 @@ public class test_signup_products extends po_signup_products {
     private ExtentTest test;
     private static String registeredEmail;
     private static String registeredPassword;
-    private static final String USERNAME = "Alan Tony";
+
     public test_signup_products() {
         super(null);
     }
@@ -40,33 +39,36 @@ public class test_signup_products extends po_signup_products {
         test = extent.createTest(method.getName());
 
         methods = new methods(test);
+
+        setMethods(methods);
     }
 
     @Test(priority = 1)
     public void TC001_VerifyAccountCreationLogoutAndLogin() {
         launch_url();
         openSignupLogin();
-
+        
         // Generate a unique email so every fresh TC001 run uses a new account.
         registeredEmail = methods.generateRandomEmail();
         registeredPassword = methods.generateRandomPassword();
-
+        Map<String, String> testData =
+                base.getTestDataFromExcel("TC001");
         registerNewUser(
-                USERNAME,
+        		testData.get("user_name"),
                 registeredEmail,
                 registeredPassword,
-                "Alan",
-                "Tony",
-                "Test Company",
-                "Test Address Line 1",
-                "Test Address Line 2",
-                "Puducherry",
-                "Puducherry",
-                "605007",
-                "9000000000");
+                testData.get("first_name"),
+                testData.get("last_name"),
+                testData.get("company"),
+                testData.get("address1"),
+                testData.get("address2"),
+                testData.get("state"),
+                testData.get("city"),
+                testData.get("pincode"),
+                testData.get("phone_number"));
 
         logout();
-        login(registeredEmail, registeredPassword, USERNAME);
+        login(registeredEmail, registeredPassword, testData.get("user_name"));
     }
 
     @Test(priority = 2, dependsOnMethods = "TC001_VerifyAccountCreationLogoutAndLogin")
@@ -76,22 +78,23 @@ public class test_signup_products extends po_signup_products {
             throw new IllegalStateException(
                     "Run TC001 before TC002 in the same TestNG execution.");
         }
-
+        Map<String, String> testData =
+                base.getTestDataFromExcel("TC002");
         launch_url();
         openSignupLogin();
-        login(registeredEmail, registeredPassword, USERNAME);
+        login(registeredEmail, registeredPassword, testData.get("user_name"));
         navigateToProducts();
         addBlueTopToCart();
 
         // These are sample values for the site's demonstration checkout flow.
         // Use only authorized test payment data.
         checkoutAndPlaceOrder(
-                "Automation test order",
-                USERNAME,
-                "4111111111111111",
-                "123",
-                "12",
-                "2028");
+        		testData.get("comment"),
+                testData.get("user_name"),
+                testData.get("card_number"),
+                testData.get("cvv"),
+                testData.get("valid_month"),
+                testData.get("valid_year"));
     }
 
     @AfterMethod(alwaysRun = true)
