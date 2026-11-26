@@ -1,0 +1,53 @@
+
+name: Java Selenium Automation CI
+
+on:
+  push:
+    branches:
+      - main
+
+  pull_request:
+    branches:
+      - main
+
+  workflow_dispatch:
+
+jobs:
+  automation-tests:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Java 11
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '11'
+          cache: maven
+
+      - name: Verify Java and Maven
+        run: |
+          java -version
+          mvn -version
+
+      - name: Run Selenium and API Tests
+        run: mvn clean test -Dheadless=true
+        env:
+          URL: https://www.automationexercise.com/
+          REPORT_NAME: GitHub Actions Selenium Report
+          DOCUMENT_TITLE: Automation Execution Results
+
+      - name: Upload TestNG and Extent Reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: automation-test-reports
+          path: |
+            test-output/
+            target/surefire-reports/
+          if-no-files-found: warn
+          retention-days: 14

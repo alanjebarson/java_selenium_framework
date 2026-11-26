@@ -12,7 +12,10 @@ public class po_signup_products {
 	private locators locators;
 	protected methods methods;
 	Dotenv dotenv = Dotenv.load();
-	public String url=dotenv.get("URL");
+	public String url = System.getProperty(
+	        "url",
+	        "https://www.automationexercise.com/"
+	);
 	
 	public po_signup_products(methods methods) {
 		this.locators= new locators();

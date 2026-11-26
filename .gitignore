@@ -13,3 +13,7 @@ resources/test_data/Test_Data_Excel.xlsx
 .settings/
 .idea/
 *.iml
+
+# GitHub Actions / local generated files
+*.log
+.DS_Store
