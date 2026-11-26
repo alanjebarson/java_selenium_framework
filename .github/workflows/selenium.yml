@@ -14,11 +14,9 @@ on:
 
 jobs:
   automation-tests:
-
     runs-on: ubuntu-latest
 
     steps:
-
       - name: Checkout Repository
         uses: actions/checkout@v4
 
@@ -41,6 +39,15 @@ jobs:
           REPORT_NAME: GitHub Actions Selenium Report
           DOCUMENT_TITLE: Automation Execution Results
 
+      - name: Upload Failure Screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: failed-test-screenshots
+          path: test-output/screenshots/
+          if-no-files-found: ignore
+          retention-days: 14
+
       - name: Upload TestNG and Extent Reports
         if: always()
         uses: actions/upload-artifact@v4
@@ -51,3 +58,4 @@ jobs:
             target/surefire-reports/
           if-no-files-found: warn
           retention-days: 14
+

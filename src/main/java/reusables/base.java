@@ -162,42 +162,35 @@ public class base {
 
 	// Initialize Reporting
 
-public static ExtentReports getInstance() {
-    if (extent == null) {
+	public static ExtentReports getInstance() {
+		if (extent == null) {
 
-        Dotenv dotenv = Dotenv.configure()
-                .ignoreIfMissing()
-                .load();
+			Dotenv dotenv = Dotenv.configure().ignoreIfMissing().load();
 
-        String reportName = System.getenv("REPORT_NAME");
-        if (reportName == null) {
-            reportName = dotenv.get("REPORT_NAME", "Selenium Automation Report");
-        }
+			String reportName = System.getenv("REPORT_NAME");
+			if (reportName == null) {
+				reportName = dotenv.get("REPORT_NAME", "Selenium Automation Report");
+			}
 
-        String documentTitle = System.getenv("DOCUMENT_TITLE");
-        if (documentTitle == null) {
-            documentTitle = dotenv.get("DOCUMENT_TITLE", "Automation Test Results");
-        }
+			String documentTitle = System.getenv("DOCUMENT_TITLE");
+			if (documentTitle == null) {
+				documentTitle = dotenv.get("DOCUMENT_TITLE", "Automation Test Results");
+			}
 
-        String reportPath = Paths.get(
-                System.getProperty("user.dir"),
-                "test-output",
-                "Reports",
-                "TestReport.html"
-        ).toString();
+			String reportPath = Paths.get(System.getProperty("user.dir"), "test-output", "Reports", "TestReport.html")
+					.toString();
 
-        new java.io.File(reportPath).getParentFile().mkdirs();
+			new java.io.File(reportPath).getParentFile().mkdirs();
 
-        ExtentSparkReporter reporter =
-                new ExtentSparkReporter(reportPath);
+			ExtentSparkReporter reporter = new ExtentSparkReporter(reportPath);
 
-        reporter.config().setReportName(reportName);
-        reporter.config().setDocumentTitle(documentTitle);
+			reporter.config().setReportName(reportName);
+			reporter.config().setDocumentTitle(documentTitle);
 
-        extent = new ExtentReports();
-        extent.attachReporter(reporter);
-    }
+			extent = new ExtentReports();
+			extent.attachReporter(reporter);
+		}
 
-    return extent;
-}
+		return extent;
+	}
 }
